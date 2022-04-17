@@ -7,6 +7,8 @@ import MyNotes from "./screens/MyNotes/MyNotes";
 import LoginScreen from "./screens/LoginPage/LoginScreen";
 import RegisterScreen from "./screens/RegisterPage/RegisterScreen";
 import { useEffect } from "react";
+import CreateNote from "./screens/CreateNote/Createnote";
+import SingleNote from "./screens/CreateNote/SingleNote";
 
 const App = () => {
   // useEffect(() => {
@@ -25,6 +27,8 @@ const App = () => {
           <Route path="/" element={<LandinPage />} />
           <Route path="/mynotes" element={<MyNotes />} />
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/createnote" element={<CreateNote />} />
+          <Route path="/note/:id" element={<SingleNote />} />
           <Route path="/register" element={<RegisterScreen />} />
         </Routes>
       </main>
