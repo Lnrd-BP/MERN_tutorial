@@ -32,7 +32,7 @@ const LoginScreen = ({}) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     dispatch(login(email, password))
-
+    navigate("/mynotes")
   };
 
   return (

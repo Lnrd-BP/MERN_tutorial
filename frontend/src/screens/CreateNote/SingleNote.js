@@ -30,8 +30,8 @@ function SingleNote({}) {
     },
   };
 
-  // const noteDelete = useSelector((state) => state.noteDelete);
-  // const { loading: loadingDelete, error: errorDelete } = noteDelete;
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const { loading: loadingDelete, error: errorDelete } = noteDelete;
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -74,11 +74,11 @@ function SingleNote({}) {
         <Card.Header>Edit your Note</Card.Header>
         <Card.Body>
           <Form onSubmit={updateHandler}>
-            {/* {loadingDelete && <Loading />} */}
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-            {/* {errorDelete && (
+            {loadingDelete && <Loading />}
+            {errorDelete && (
               <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
-            )} */}
+            )}
+            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
               <Form.Control

@@ -4,11 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import MainScreen from "../../components/MainScreen";
 import "./MyNotes.css";
 import { useDispatch, useSelector } from "react-redux";
-import { listNotes } from "../../actions/notesActions";
+import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
-const MyNotes = () => {
+const MyNotes = ({search}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,9 +24,16 @@ const MyNotes = () => {
   const noteUpdate = useSelector((state) => state.noteUpdate);
   const { success: succesUpdate } = noteUpdate;
 
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = noteDelete;
+
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      console.log("done");
+      dispatch(deleteNoteAction(id));
     }
   };
 
@@ -35,18 +42,21 @@ const MyNotes = () => {
     if (!userInfo) {
       navigate("/");
     }
-  }, [dispatch, succesCreate, userInfo, succesUpdate]);
+  }, [dispatch, succesCreate, userInfo, succesUpdate, successDelete]);
 
   return (
-    <MainScreen title={`Welcome back, ${userInfo.name}`}>
+    <MainScreen title={`Welcome back, ${userInfo?.name}`}>
       <Link to="/createnote">
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
           Create New Note
         </Button>
       </Link>
+      {errorDelete && (
+        <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+      )}
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
       {loading && <Loading />}
-      {notes?.reverse().map((note) => {
+      {notes?.reverse().filter(filteredNote=>filteredNote.title.toLowerCase().includes(search.toLowerCase())).map((note) => {
         return (
           <Accordion key={note._id}>
             <Card style={{ margin: 10 }}>
